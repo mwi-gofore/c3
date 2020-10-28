@@ -79,7 +79,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
         $this->io->write("<comment>[codeception/c3]</comment> Include c3.php into index.php in order to collect codecoverage from server scripts");
     }
 
-    public function askForUpdate(PackageEvent $event)
+    public function askForUpdate(Event $event)
     {
         if (!$this->isOperationOnC3($event) || $this->c3NotChanged()) {
             return;
