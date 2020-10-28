@@ -49,7 +49,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
         $event->getIO()->write("<warning>Please remove current \"post-install-cmd\" and \"post-update-cmd\" hooks from your composer.json</warning>");
     }
 
-    public function copyC3(PackageEvent $event)
+    public function copyC3(Event $event)
     {
         $this->io->write("C3 copy c3");
         if ($this->c3NotChanged()) {
