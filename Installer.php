@@ -31,7 +31,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
         $this->deleteFile();
     }
 
-    protected function isOperationOnC3(PackageEvent $event)
+    protected function isOperationOnC3(Event $event)
     {
         $name = '';
 
