@@ -19,6 +19,11 @@ before_script:
   - cp c3.php vendor/codeception/codeception/tests/data/claypit
   - cd vendor/codeception/codeception
   - php -S 127.0.0.1:8000 -t tests/data/app >/dev/null 2>&1 &
+  - export PHP_PID=$!
 
 script:
+  - echo "PHP running on PID ${PHP_PID}"
   - ./codecept run coverage
+
+after_script:
+  - kill $PHP_PID
