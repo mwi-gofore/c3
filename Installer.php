@@ -23,6 +23,11 @@ class Installer implements PluginInterface, EventSubscriberInterface
         $this->io = $io;
     }
     
+    public function deactivate(Composer $composer, IOInterface $io)
+    {
+        $this->io = null;
+    }
+    
     protected function isOperationOnC3(PackageEvent $event)
     {
         $name = '';
@@ -99,9 +104,17 @@ class Installer implements PluginInterface, EventSubscriberInterface
         if (!$this->isOperationOnC3($event)) {
             return;
         }
+        $this->deleteFile();
+    }
+    
+    private function deleteFile() {
         if (file_exists(getcwd() . DIRECTORY_SEPARATOR . 'c3.php')) {
             $this->io->write("<comment>[codeception/c3]</comment> Deleting c3.php from the root of your project...");
             unlink(getcwd() . DIRECTORY_SEPARATOR . 'c3.php');
         }
+    }
+
+    public function uninstall() {
+        $this->deleteFile();
     }
 }
