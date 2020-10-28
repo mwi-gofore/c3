@@ -25,7 +25,6 @@ class Installer implements PluginInterface, EventSubscriberInterface
     
     public function deactivate(Composer $composer, IOInterface $io)
     {
-        $this->io = null;
     }
     
     public function uninstall(Composer $composer, IOInterface $io) {
@@ -50,15 +49,12 @@ class Installer implements PluginInterface, EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ScriptEvents::POST_PACKAGE_INSTALL => [
+            ScriptEvents::POST_INSTALL_CMD => [
                 ['copyC3', 0]
             ],
-            ScriptEvents::POST_PACKAGE_UPDATE => [
+            ScriptEvents::POST_UPDATE_CMD => [
                 ['askForUpdate', 0]
             ],
-            ScriptEvents::POST_PACKAGE_UNINSTALL => [
-                ['deleteC3', 0]
-            ]
         ];
     }
 
