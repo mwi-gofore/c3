@@ -34,6 +34,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
     protected function isOperationOnC3(Event $event)
     {
         $name = '';
+        $this->io->write("FOOOOOO " . $event->getName()));
         $this->io->write(json_encode($event));
 
         if ($event->getOperation() instanceof InstallOperation) {
