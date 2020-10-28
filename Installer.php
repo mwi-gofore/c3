@@ -31,23 +31,6 @@ class Installer implements PluginInterface, EventSubscriberInterface
         $this->deleteFile();
     }
 
-    protected function isOperationOnC3(Event $event)
-    {
-        $name = '';
-        $this->io->write("FOOOOOO " . $event->getName());
-        $this->io->write(json_encode($event));
-
-        if ($event->getOperation() instanceof InstallOperation) {
-            list(, $name) = explode('/', $event->getOperation()->getPackage()->getName());
-        } elseif ($event->getOperation() instanceof UpdateOperation) {
-            list(, $name) = explode('/', $event->getOperation()->getTargetPackage()->getName());
-        } elseif ($event->getOperation() instanceof UninstallOperation) {
-            list(, $name) = explode('/', $event->getOperation()->getPackage()->getName());
-        }
-
-        return $name === 'c3';
-    }
-    
     public static function getSubscribedEvents()
     {
         return [
@@ -68,9 +51,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
 
     public function copyC3(PackageEvent $event)
     {
-        if (!$this->isOperationOnC3($event)) {
-            return;
-        }
+        $this->io->write("C3 copy c3");
         if ($this->c3NotChanged()) {
             $this->io->write("<comment>[codeception/c3]</comment> c3.php is already up-to-date");
             return;
@@ -83,9 +64,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
 
     public function askForUpdate(Event $event)
     {
-        if (!$this->isOperationOnC3($event) || $this->c3NotChanged()) {
-            return;
-        }
+        $this->io->write("C3 ask for update");
         if (file_exists(getcwd() . DIRECTORY_SEPARATOR . 'c3.php')) {
             $replace = $this->io->askConfirmation("<warning>c3.php has changed</warning> Do you want to replace c3.php with latest version?", false);
             if (!$replace) {
